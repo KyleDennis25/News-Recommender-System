@@ -60,7 +60,6 @@ if __name__ == "__main__":
     articles = get_articles(topics, page_size=50, pages=2)
     df = articles_to_df(articles)
     # Save as a csv in the data directory
-    df.to_csv("/Users/kyledennis/Desktop/Projects/News-Recommender-System/data/articles.csv", index=False)
-    # print(df)
-    
+    df.to_csv("data/article_data.csv", index=False)
+
 
