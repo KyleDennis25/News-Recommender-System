@@ -2,14 +2,8 @@ import os
 import re
 import pandas as pd
 import string
-import nltk
-from nltk.corpus import stopwords
 
-# Download stopwords 
-# nltk.download('stopwords')
 
-# Load in stop words
-stop_words = set(stopwords.words('english'))
 
 def clean_text(text):
     """
@@ -22,8 +16,6 @@ def clean_text(text):
     text = re.sub(r"[“”‘’—–…•]", "", text)
     # Tokenizes text
     tokens = text.split()
-    # Removes stopwords
-    tokens = [word for word in tokens if word not in stop_words]
     return " ".join(tokens)
 
 def preprocess(df):
