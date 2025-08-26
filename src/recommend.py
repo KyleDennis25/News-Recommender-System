@@ -1,0 +1,31 @@
+import pandas as pd
+from .vectorize import cosine_sim, df  
+
+# Map each article to its index
+indices = pd.Series(df.index, index=df['title']).drop_duplicates()
+
+def recommend_articles(title, top_n=5):
+    """
+    Returns top N similar articles to the given article title.
+    """
+    if title not in indices:
+        raise ValueError(f"Article '{title}' not found in dataset.")
+    
+    idx = indices[title]
+
+    # Pair similarity scores with given article
+    sim_scores = list(enumerate(cosine_sim[idx]))
+    
+    # Sort by similarity score, descending
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+    
+    # Get top_n most similar articles, excluding the given article
+    sim_scores = sim_scores[1:top_n+1]
+
+    # Get article indices
+    article_indices = [i[0] for i in sim_scores]
+
+    return df[['title', 'url']].iloc[article_indices]
+
+
+
