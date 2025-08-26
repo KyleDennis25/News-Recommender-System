@@ -11,7 +11,6 @@ vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
 # Fit and transform the 'text' column
 tfidf_matrix = vectorizer.fit_transform(df['text'])
 
-
 # Compute similarity between all articles
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
 
