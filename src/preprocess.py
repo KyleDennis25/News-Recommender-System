@@ -4,7 +4,6 @@ import pandas as pd
 import string
 
 
-
 def clean_text(text):
     """
     Cleans a string- lowercases string and removes trivial characters and stopwords .
@@ -37,5 +36,4 @@ if __name__ == "__main__":
     df_clean = preprocess(df_raw)
     df_clean.to_csv("data/clean_article_data.csv", index=False)
     
-
-
+    
