@@ -1,6 +1,23 @@
+import pandas as pd 
 import streamlit as st
-from src.vectorize import df
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 from src.recommend import recommend_articles
+
+# Load data
+df = pd.read_csv("data/clean_article_data.csv")
+
+# Initialize vectorizer
+vectorizer = TfidfVectorizer(max_features=5000, stop_words='english')
+
+# Fit and transform the 'text' column
+tfidf_matrix = vectorizer.fit_transform(df['text'])
+
+# Compute similarity between all articles
+cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
+
+# Map each article to its index
+indices = pd.Series(df.index, index=df['title']).drop_duplicates()
 
 # Set title
 st.set_page_config(page_title="Article Recommendation System", layout="wide")
@@ -23,7 +40,7 @@ if title_input:
 if st.button("Get Recommendations"):
     if title_input:
         try:
-            recommendations = recommend_articles(title_input, top_n=top_n)
+            recommendations = recommend_articles(df, title_input, indices, cosine_sim, top_n=top_n)
             if not recommendations.empty:
                 st.subheader("Recommended Articles:")
                 for _, row in recommendations.iterrows():
