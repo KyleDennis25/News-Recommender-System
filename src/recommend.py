@@ -1,10 +1,7 @@
-import pandas as pd
-from .vectorize import cosine_sim, df  
+import pandas as pd 
 
-# Map each article to its index
-indices = pd.Series(df.index, index=df['title']).drop_duplicates()
 
-def recommend_articles(title, top_n=5):
+def recommend_articles(df, title, indices, cosine_sim, top_n=5):
     """
     Returns top N similar articles to the given article title.
     """
@@ -26,6 +23,5 @@ def recommend_articles(title, top_n=5):
     article_indices = [i[0] for i in sim_scores]
 
     return df[['title', 'url']].iloc[article_indices]
-
 
 
