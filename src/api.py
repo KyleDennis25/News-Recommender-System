@@ -15,7 +15,7 @@ def get_articles(topics, page_size, pages, language="en"):
     """
     all_articles = []
     for topic in topics:
-        print(f"Fetching articles for topic: {topic}")
+        print(f"Retrieving articles for topic: {topic}")
         for page in range(1, pages + 1):
             params = {
                 "q": topic,
@@ -56,7 +56,7 @@ def articles_to_df(articles):
 
 if __name__ == "__main__":
     # Gets 100 articles for each topic
-    topics = ["technology", "science", "business"]
+    topics = ["technology", "science", "business", "politics", "health", "sports", "entertainment", "world", "finance", "economy", "education"]
     articles = get_articles(topics, page_size=50, pages=2)
     df = articles_to_df(articles)
     # Save as a csv in the data directory
