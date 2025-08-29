@@ -44,12 +44,11 @@ if st.button("Get Recommendations"):
             if not recommendations.empty:
                 st.subheader("Recommended Articles:")
                 for _, row in recommendations.iterrows():
-                    st.markdown(f"- [{row['title']}]({row['url']})")
+                    st.markdown(f"**{row['title']}** ({row['topic']}, {row['publishedAt']})")
+                    st.write(row['url'])
             else:
                 st.warning("No recommendations found.")
         except ValueError as e:
             st.error(str(e))
     else:
         st.warning("Please select an article.")
-
-
