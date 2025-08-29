@@ -3,10 +3,6 @@ import requests
 import pandas as pd
 from dotenv import load_dotenv
 
-# Load API key from .env file
-load_dotenv()
-API_KEY = os.getenv("NEWS_API_KEY")
-BASE_URL = "https://newsapi.org/v2"
 
 def get_articles(topics, page_size, pages, language="en"):
     """
@@ -15,7 +11,6 @@ def get_articles(topics, page_size, pages, language="en"):
     """
     all_articles = []
     for topic in topics:
-        print(f"Retrieving articles for topic: {topic}")
         for page in range(1, pages + 1):
             params = {
                 "q": topic,
@@ -42,11 +37,11 @@ def get_articles(topics, page_size, pages, language="en"):
 def articles_to_df(articles):
     """
     Converts list of NewsAPI articles into a pandas DataFrame.
+    Returns DataFrame with relevant columns.
     """
     df = pd.DataFrame(articles)
     if df.empty:
         return df
-    # Keeps only these columns in the df
     columns = ["title", "topic", "description", "source", "publishedAt", "url"]
     df = df[columns].copy()
     # replaces source dictionary with just the name if source is a nested dictionary
@@ -55,11 +50,14 @@ def articles_to_df(articles):
 
 
 if __name__ == "__main__":
+    # Load API key from .env file
+    load_dotenv()
+    API_KEY = os.getenv("NEWS_API_KEY")
+    BASE_URL = "https://newsapi.org/v2"
+    
     # Gets 100 articles for each topic
     topics = ["technology", "science", "business", "politics", "health", "sports", "entertainment", "world", "finance", "economy", "education"]
     articles = get_articles(topics, page_size=50, pages=2)
     df = articles_to_df(articles)
     # Save as a csv in the data directory
     df.to_csv("data/article_data.csv", index=False)
-
-
